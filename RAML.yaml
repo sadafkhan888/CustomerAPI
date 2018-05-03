@@ -1,0 +1,97 @@
+#%RAML 0.8
+title: customers
+version: "1.0.0"
+baseUri: "http://example.com/v1"
+schemas: 
+    - 
+        customer: '{"type":"object","$schema":"http://json-schema.org/draft-03/schema#","title":"customer","properties":{"customerID":{"type":"string","required":false,"title":"customerID"},"firstname":{"type":"string","required":false,"title":"firstname"},"lastname":{"type":"string","required":false,"title":"lastname"},"addresses":{"type":"object","properties":{"address 1":{"type":"object","properties":{"housenumber":{"type":"string","required":false,"title":"housenumber"},"streetname":{"type":"string","required":false,"title":"streetname"},"city":{"type":"string","required":false,"title":"city"},"state":{"type":"string","required":false,"title":"state"}}},"address 2":{"type":"object","properties":{"housenumber":{"type":"string","required":false,"title":"housenumber"},"streetname":{"type":"string","required":false,"title":"streetname"},"city":{"type":"string","required":false,"title":"city"},"state":{"type":"string","required":false,"title":"state"}}}}}}}'
+    - 
+        anonymousRepresentation: '{"type":"object","$schema":"http://json-schema.org/draft-03/schema#","title":"anonymousRepresentation"}'
+/customers: 
+    description: This resource is used for mentaining customer's data
+    get: 
+        description: This operation gets the list of all  customers
+        displayName: Get list of customers
+        headers: 
+            ETag: 
+                displayName: ETag
+                description: This Etag can be sent by mobile devices or any other consumer  which caches consumer data at their end . Etag indicates if the data has not been modified since consumers last API call.
+                type: string
+                required: false
+                repeat: false
+        queryParameters: 
+            page: 
+                displayName: page
+                description: get the list of customers on specified page.
+                type: string
+                required: false
+                repeat: false
+            count: 
+                displayName: count
+                description: count of the customers object on the current page
+                type: string
+                required: false
+                repeat: false
+            pages: 
+                displayName: pages
+                description: total number of pages available
+                type: string
+                required: false
+                repeat: false
+        responses: 
+            "200": 
+                description: "200 OK"
+                body: 
+                    application/json: 
+                        schema: customer
+                        example: '{"customerID":"sample customerID","firstname":"sample firstname","lastname":"sample lastname","addresses":{"address 1":{"housenumber":"sample housenumber","streetname":"sample streetname","city":"sample city","state":"sample state"},"address 2":{"housenumber":"sample housenumber","streetname":"sample streetname","city":"sample city","state":"sample state"}}}'
+            "304": 
+                description: "304- Not Modified in case API is been called too frequently by mobile app. this is when etag remains same"
+            "400": 
+                description: "400 Bad Request when mandatory fields are missing"
+            "401": 
+    post: 
+        description: This operation is used to  create a new customer
+        displayName: Create new customer
+        body: 
+            application/json: 
+                schema: anonymousRepresentation
+                example: "{}"
+        responses: 
+            "201": 
+                description: "201 - Created"
+                body: 
+                    application/json: 
+                        schema: customer
+                        example: '{"customerID":"sample customerID","firstname":"sample firstname","lastname":"sample lastname","addresses":{"address 1":{"housenumber":"sample housenumber","streetname":"sample streetname","city":"sample city","state":"sample state"},"address 2":{"housenumber":"sample housenumber","streetname":"sample streetname","city":"sample city","state":"sample state"}}}'
+    put: 
+        description: This operation will be used to update the details of existing customer.
+        displayName: Update customer
+        queryParameters: 
+            customerID: 
+                displayName: customerID
+                description: customerID of the existing user
+                type: string
+                required: false
+                repeat: false
+        body: 
+            application/json: 
+                schema: customer
+                example: '{"customerID":"sample customerID","firstname":"sample firstname","lastname":"sample lastname","addresses":{"address 1":{"housenumber":"sample housenumber","streetname":"sample streetname","city":"sample city","state":"sample state"},"address 2":{"housenumber":"sample housenumber","streetname":"sample streetname","city":"sample city","state":"sample state"}}}'
+    delete: 
+        description: This operation will be used to delete  a customer.
+        displayName: Delete customer
+        queryParameters: 
+            customerID: 
+                displayName: customerID
+                description: customer ID of the existing user to be deleted
+                type: string
+                required: false
+                repeat: false
+        responses: 
+            "200": 
+                description: "200 - OK"
+            "204": 
+                description: "204 - 1No Content"
+/orders: 
+/products: 
